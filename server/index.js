@@ -24,6 +24,10 @@ app.use(
 app.use("/api/auth", authRoutes);
 app.use("/api/quiz", quizRoutes);
 
+app.use("/api/health-check", (req, res) => {
+	res.send("Server is running");
+});
+
 app.listen(process.env.PORT || 3000, () => {
 	console.log("Server is running on port 3000");
 });
