@@ -82,7 +82,64 @@ export const createQuiz = async (req, res) => {
     return res.status(500).json({
       success: false,
       error: "Failed to create quiz",
-      ...(process.env.NODE_ENV === "development" && { details: error.message }),
+      ...(process.env.NODE_ENV === "development" && {
+        details: error.message,
+      }),
+    });
+  }
+};
+
+export const getQuiz = async (req, res) => {
+  try {
+    const quizId = req.params.id;
+
+    // First, make sure the quiz exists
+    const quiz = await prisma.quiz.findUnique({
+      where: { id: quizId },
+    });
+    if (!quiz) {
+      return res.status(404).json({
+        success: false,
+        error: "Quiz does not exist",
+      });
+    }
+
+    // Group quizQuestions by questionId to get the max version per question
+    const groups = await prisma.quizQuestion.groupBy({
+      by: ["questionId"],
+      where: { quizId },
+      _max: { version: true },
+    });
+
+    // Build conditions to fetch only the quizQuestion record with max version for each question
+    const conditions = groups.map((g) => ({
+      questionId: g.questionId,
+      version: g._max.version,
+    }));
+
+    // Get only those quizQuestions that match these conditions
+    const latestQuizQuestions = await prisma.quizQuestion.findMany({
+      where: {
+        quizId,
+        OR: conditions,
+      },
+      include: { question: true },
+      orderBy: { createdAt: "asc" },
+    });
+
+    // Return quiz details along with only the latest quiz questions
+    return res.status(200).json({
+      success: true,
+      quiz: { ...quiz, quizQuestions: latestQuizQuestions },
+    });
+  } catch (error) {
+    console.error("Error fetching quiz:", error);
+    return res.status(500).json({
+      success: false,
+      error: "Failed to fetch quiz",
+      ...(process.env.NODE_ENV === "development" && {
+        details: error.message,
+      }),
     });
   }
 };

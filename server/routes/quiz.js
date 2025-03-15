@@ -1,5 +1,5 @@
 import express from "express";
-import { createQuiz } from "../controllers/quiz.js";
+import { createQuiz, getQuiz } from "../controllers/quiz.js";
 import multer from "multer";
 import path from "path";
 import verifyToken from "../middleware/verifyToken.js";
@@ -24,5 +24,6 @@ const upload = multer({
 });
 
 router.post("/new", verifyToken, upload.array("files"), createQuiz);
+router.get("/:id", verifyToken, getQuiz);
 
 export default router;

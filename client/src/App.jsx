@@ -5,6 +5,7 @@ import "./App.css";
 
 import Landing from "./pages/landing";
 import New from "./pages/new";
+import QuizPage from "./pages/quiz-page";
 
 const ProtectedRoute = ({ element }) => {
   const { isAuthenticated } = useAuth();
@@ -19,6 +20,7 @@ const LoginRedirect = () => {
 const routes = [
   { path: "/", element: <LoginRedirect /> },
   { path: "/new", element: <ProtectedRoute element={<New />} /> },
+  { path: "/q/:id", element: <ProtectedRoute element={<QuizPage />} /> },
 ];
 
 function App() {
