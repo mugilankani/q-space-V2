@@ -15,15 +15,15 @@ app.use(cookieParser());
 app.use(requestLogger);
 
 app.use(
-  cors({
-    origin: process.env.CLIENT_URL,
-    credentials: true,
-  }),
+	cors({
+		origin: process.env.CLIENT_URL,
+		credentials: true,
+	})
 );
 
 app.use("/api/auth", authRoutes);
 app.use("/api/quiz", quizRoutes);
 
-app.listen(3000, () => {
-  console.log("Server is running on port 3000");
+app.listen(process.env.PORT || 3000, () => {
+	console.log("Server is running on port 3000");
 });

@@ -5,6 +5,9 @@
   "prisma": {
     "schema": "./prisma/schema.prisma"
   },
+  "scripts": {
+    "start": "node index.js"
+  },
   "devDependencies": {
     "@types/bun": "latest",
     "prisma": "^6.5.0"
