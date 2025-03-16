@@ -43,7 +43,7 @@ model GoogleAuth {
 
 model Quiz {
     id         String     @id @default(cuid())
-    userId     String     @map("user_id")
+    userId     String
     config     Json
     maxNos     Int
     currentNos Int        @default(0)
@@ -52,7 +52,7 @@ model Quiz {
     updatedAt  DateTime   @updatedAt
 
     user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-    
+
     quizQuestions QuizQuestion[]
 }
 
@@ -63,35 +63,21 @@ enum QuizStatus {
     FAILED
 }
 
-model Question {
+model QuizQuestion {
     id            String       @id @default(cuid())
-    baseId        String
-    version       Int
+    quizId        String
     question      String
     options       String[]
     correctOption Int
     questionType  QuestionType
-    metadata      Json? // Extendable field for future question types
     createdAt     DateTime     @default(now())
     updatedAt     DateTime     @updatedAt
 
-    quizQuestions QuizQuestion[]
+    quiz Quiz @relation(fields: [quizId], references: [id], onDelete: Cascade)
 }
 
 enum QuestionType {
     MULTIPLE_CHOICE
     TRUE_FALSE
     SHORT_ANSWER
-}
-
-model QuizQuestion {
-    id         String   @id @default(cuid())
-    quizId     String
-    questionId String
-    version    Int
-    createdAt  DateTime @default(now())
-    updatedAt  DateTime @updatedAt
-
-    quiz     Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
-    question Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
 }

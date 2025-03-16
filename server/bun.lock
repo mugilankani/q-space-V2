@@ -7,6 +7,7 @@
         "@auth/express": "^0.9.0",
         "@auth/prisma-adapter": "^2.8.0",
         "@google/generative-ai": "^0.24.0",
+        "@langchain/core": "^0.3.42",
         "@langchain/google-genai": "^0.1.11",
         "@prisma/client": "^6.5.0",
         "axios": "^1.8.3",
