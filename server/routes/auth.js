@@ -120,12 +120,14 @@ router.get("/google/callback", async (req, res) => {
     res.cookie("accessToken", accessToken, {
       httpOnly: true,
       sameSite: "none",
+      domain: process.env.COOKIE_DOMAIN,
       secure: true,
       maxAge: 15 * 60 * 1000, // 15 minutes
     });
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       sameSite: "none",
+      domain: process.env.COOKIE_DOMAIN,
       secure: true,
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
@@ -141,9 +143,11 @@ router.post("/logout", (req, res) => {
   res.clearCookie("accessToken", {
     sameSite: "none",
     secure: true,
+    domain: process.env.COOKIE_DOMAIN,
   });
   res.clearCookie("refreshToken", {
     sameSite: "none",
+    domain: process.env.COOKIE_DOMAIN,
     secure: true,
   });
   res.status(200).json({ message: "Logged out successfully" });
@@ -175,6 +179,7 @@ router.post("/token", async (req, res) => {
     res.cookie("accessToken", newAccessToken, {
       httpOnly: true,
       sameSite: "none",
+      domain: process.env.COOKIE_DOMAIN,
       secure: true,
       maxAge: 15 * 60 * 1000, // 15 minutes
     });

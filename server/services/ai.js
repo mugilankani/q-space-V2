@@ -9,7 +9,7 @@ if (!GEMINI_API_KEY) {
 
 export const model = new ChatGoogleGenerativeAI({
   apiKey: GEMINI_API_KEY,
-  model: "gemini-1.5-pro",
+  model: "gemini-2.0-flash",
   maxOutputTokens: 1000000,
   safetySettings: [
     {

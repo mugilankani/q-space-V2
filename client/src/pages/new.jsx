@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { FileText, Upload, X } from "lucide-react";
 import clsx from "clsx";
+import { useNavigate } from "react-router";
 
 import Navbar from "../components/navbar";
 import QuestionSettings from "../components/question-settings";
@@ -12,6 +13,7 @@ import {
 } from "../context/QuizSettingsContext";
 
 import axiosInstance from "../axiosInstance";
+import { redirect } from "react-router";
 
 export default function New() {
   return (
@@ -35,6 +37,8 @@ export function NewContent() {
   } = useQuizSettings();
 
   const [isDragging, setIsDragging] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const fileInputRef = useRef(null);
 
@@ -135,6 +139,9 @@ export function NewContent() {
   };
 
   const handleGenerateQuiz = async () => {
+    if (isLoading) return;
+    setIsLoading(true);
+
     const formData = new FormData();
 
     files.forEach((fileObj) => {
@@ -157,8 +164,8 @@ export function NewContent() {
           "Content-Type": "multipart/form-data",
         },
       });
-
-      alert(`Quiz created successfully! ID: ${response.data.quizId}`);
+      console.log("Quiz creation response:", response.data);
+      navigate(`/q/${response.data.quizId}`);
       setFiles([]);
     } catch (error) {
       console.error("Error:", error);
@@ -167,6 +174,8 @@ export function NewContent() {
         error.response?.data?.message ||
         "Failed to create quiz";
       alert(errorMessage);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -281,15 +290,15 @@ export function NewContent() {
 
           <button
             className={clsx(
-              "mt-3 w-full py-1.5 bg-black text-white rounded-full transition-opacity",
-              !isValid
+              "mt-3 w-full py-1.5 text-sm bg-black text-white rounded-full transition-opacity",
+              !isValid || isLoading
                 ? "bg-black/50 cursor-not-allowed"
                 : "active:bg-neutral-800 hover:bg-neutral-950",
             )}
-            disabled={!isValid}
+            disabled={!isValid || isLoading}
             onClick={handleGenerateQuiz}
           >
-            Generate quiz
+            {isLoading ? "Creating... (may take up to 20s)" : "Generate quiz"}
           </button>
         </div>
       </div>
