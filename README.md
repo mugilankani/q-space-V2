@@ -50,7 +50,7 @@ Q Space is an AI-driven platform designed to automate the process of quiz creati
 - 💡 **Q&A Session**: Address feedback and showcase use cases
 - 🤝 **Meet the Team**: Introduction to contributors and roles
 
-For more details, reach out to us at [Your Contact Info]. 🚀
+
 ![Screenshot 2025-03-16 100833](https://github.com/user-attachments/assets/6fdad955-6ce2-4a30-b231-b3cfe240f5b1)
 ![Screenshot 2025-03-16 125450](https://github.com/user-attachments/assets/b6ab3195-7a15-4a6f-8abc-70e53c75d62e)
 ![Screenshot 2025-03-16 125513](https://github.com/user-attachments/assets/8883a7d1-563d-4c93-92a5-08ef0057652b)
