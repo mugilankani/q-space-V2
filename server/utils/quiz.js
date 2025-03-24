@@ -1,4 +1,4 @@
-import { model } from "../services/ai";
+import { Qmodel } from "../services/ai";
 import prisma from "../prisma";
 
 const BATCH_SIZE = 5;
@@ -64,7 +64,7 @@ ${fullcontext} // Limiting input size for efficiency
 ]
 `;
     try {
-      const response = await model.invoke([["human", prompt]]);
+      const response = await Qmodel.invoke([["human", prompt]]);
       console.log(response);
 
       // Ensure the response content is valid JSON
